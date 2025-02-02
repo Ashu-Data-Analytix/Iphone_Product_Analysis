@@ -1,0 +1,85 @@
+import pandas as pd 
+import numpy as Np
+import matplotlib.pyplot as plt
+import seaborn as sn
+import plotly.express as px
+
+Data=pd.read_csv(r'C:\Users\DELL\Downloads\apple_products .csv')
+
+dt=pd.DataFrame(Data)
+print(dt.head(5))
+
+print('#check Missing Values :-')
+print(dt.isnull().sum())
+
+print('#Stratical Values :-')
+print(dt.describe())
+
+print('# All Columns Names :-')
+print(dt.columns)     
+
+print('#Print Some col . unique :-')
+print(dt['Sale Price'].unique())
+print(dt['Number Of Reviews'].unique())
+print(dt['Discount Percentage'].unique())
+print(dt['Product Name'].head(10))
+
+
+print("# Top 10 Rating Sort values Decending Order :-")
+High_rated= dt.sort_values(by=['Star Rating'],ascending=False)
+High_rated=High_rated.head(10)
+print(High_rated)
+
+print('# Highest Rating :-')
+iphone=High_rated['Product Name'].value_counts()
+label=Np.array(iphone.index)
+counts=Np.array(High_rated['Number Of Ratings'])
+
+
+print('# GRAPGH-[1] By Matplotlip.plotly')
+
+figure=plt.figsize=(20,12)
+
+plt.bar( data = High_rated, x = label ,
+        height = counts,color='Darkgreen' ) 
+
+plt.xticks(fontsize= 6,rotation = 70)
+plt.title('Rating By Iphone', fontsize= 15)
+plt.xlabel('Iphone_Name')
+plt.ylabel('Rating',fontsize = 15)
+plt.title('No. of rating of hightest rates iphone', fontsize = 17)
+# Display the figure :-
+plt.show()
+
+
+print('# GRAPGH-[2] By Seaborn')
+filter_data=dt.head(70)
+print(filter_data)
+
+sn.scatterplot( data = filter_data, 
+               x= 'Number Of Ratings',
+               y = 'Sale Price', 
+               hue = 'Discount Percentage',
+               size ='Discount Percentage' ,
+               sizes = (50,700) ,
+               palette = 'dark')
+plt.title(' Relationship Between Sales Price and No. of Ratings')
+plt.ylabel('SALES PRICE')
+plt.xlabel('Number of Ratings', fontsize = 10 )
+plt.legend(fontsize=7)
+# Display the figure :-
+plt.show()
+
+
+print('# GRAPGH [3] BY Seaborn ')
+
+sn.stripplot(data = filter_data ,
+            x = 'Number Of Ratings',
+            y='Discount Percentage',
+            hue = 'Sale Price',jitter=True ,
+            palette= ['Blue','red','orange','black'] ,
+            size = 9 )
+# Display the figure :-
+plt.show()
+
+print("Complete....😃✔")
